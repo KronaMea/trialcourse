@@ -1,1 +1,450 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Present Continuous - Interactive Lesson (A2)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #74b9ff, #a29bfe);
+    min-height: 100vh;
+    padding: 20px;
+    color: #2d3436;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  h1 {
+    text-align: center;
+    color: #6c5ce7;
+    margin-bottom: 10px;
+    font-size: 2.2em;
+  }
+  .subtitle {
+    text-align: center;
+    color: #636e72;
+    margin-bottom: 25px;
+    font-style: italic;
+  }
+  .section {
+    background: #f8f9fa;
+    border-left: 5px solid #6c5ce7;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+  }
+  .section h2 {
+    color: #6c5ce7;
+    margin-bottom: 12px;
+  }
+  .rule {
+    background: #fff;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    border: 1px dashed #b2bec3;
+  }
+  .example {
+    background: #dfe6e9;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-radius: 8px;
+    font-style: italic;
+  }
+  .example b { color: #d63031; }
+  .activity {
+    background: #fff;
+    border: 2px solid #74b9ff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+  .activity h3 {
+    color: #0984e3;
+    margin-bottom: 15px;
+  }
+  .question {
+    background: #f1f2f6;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+  }
+  .options button, .btn {
+    background: #74b9ff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    margin: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+  }
+  .options button:hover, .btn:hover {
+    background: #0984e3;
+    transform: translateY(-2px);
+  }
+  .options button.correct { background: #00b894; }
+  .options button.wrong { background: #d63031; }
+  input[type="text"] {
+    padding: 8px 12px;
+    border: 2px solid #b2bec3;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 180px;
+  }
+  input[type="text"]:focus { outline: none; border-color: #6c5ce7; }
+  .feedback {
+    margin-top: 8px;
+    font-weight: bold;
+    min-height: 20px;
+  }
+  .feedback.ok { color: #00b894; }
+  .feedback.no { color: #d63031; }
+  .score-box {
+    background: linear-gradient(135deg, #fdcb6e, #e17055);
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .check-btn {
+    background: #00b894;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  .check-btn:hover { background: #00a381; }
+  .reset-btn {
+    background: #636e72;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 20px auto 0;
+  }
+  .reset-btn:hover { background: #2d3436; }
+  .drag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 50px;
+    background: #dfe6e9;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+  }
+  .word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0;
+  }
+  .word {
+    background: #ffeaa7;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: grab;
+    user-select: none;
+    border: 1px solid #fdcb6e;
+  }
+  .word.placed { opacity: 0.4; cursor: default; }
+  .drop-zone {
+    min-width: 60px;
+    min-height: 30px;
+    background: #fff;
+    border: 2px dashed #636e72;
+    border-radius: 6px;
+    padding: 4px 8px;
+    display: inline-block;
+    margin: 0 4px;
+  }
+  .drop-zone.filled { border-style: solid; background: #55efc4; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📘 Present Continuous</h1>
+  <p class="subtitle">Interactive English Lesson — Level A2</p>
+
+  <div class="score-box">
+    Your Score: <span id="score">0</span> / <span id="total">0</span>
+  </div>
+
+  <!-- THEORY -->
+  <div class="section">
+    <h2>📖 Grammar Rules</h2>
+    <p>We use the <b>Present Continuous</b> for actions happening <b>now</b> or <b>around now</b>.</p>
+    <div class="rule">
+      ✅ (+) Subject + <b>am/is/are</b> + verb<b>-ing</b><br>
+      ❌ (−) Subject + <b>am/is/are + not</b> + verb<b>-ing</b><br>
+      ❓ (?) <b>Am/Is/Are</b> + subject + verb<b>-ing</b>?
+    </div>
+    <div class="example">She <b>is reading</b> a book now.</div>
+    <div class="example">They <b>are not playing</b> football. / They <b>aren't playing</b> football.</div>
+    <div class="example"><b>Are</b> you <b>listening</b> to me?</div>
+    <p style="margin-top:10px;">⚠️ <b>Spelling rules:</b></p>
+    <ul style="margin-left:20px;">
+      <li>Most verbs: add <b>-ing</b> → play → playing</li>
+      <li>Verbs ending in <b>-e</b>: drop the <b>e</b> → write → writing</li>
+      <li>Short verbs (CVC): double the last letter → run → running, sit → sitting</li>
+    </ul>
+  </div>
+
+  <!-- ACTIVITY 1: Multiple Choice -->
+  <div class="activity">
+    <h3>🎯 Activity 1 — Choose the correct form</h3>
+    <div id="mc-container"></div>
+  </div>
+
+  <!-- ACTIVITY 2: Fill in the blanks -->
+  <div class="activity">
+    <h3>✏️ Activity 2 — Fill in the blanks</h3>
+    <p>Type the correct Present Continuous form.</p>
+    <div id="fill-container"></div>
+    <button class="check-btn" onclick="checkFill()">Check Answers</button>
+    <div id="fill-feedback" class="feedback"></div>
+  </div>
+
+  <!-- ACTIVITY 3: Word Order -->
+  <div class="activity">
+    <h3>🧩 Activity 3 — Put the words in the correct order</h3>
+    <p>Click the words to build the sentence.</p>
+    <div id="wo-container"></div>
+  </div>
+
+  <!-- ACTIVITY 4: Negative & Questions -->
+  <div class="activity">
+    <h3>💬 Activity 4 — Make negatives or questions</h3>
+    <p>Complete each sentence.</p>
+    <div id="neg-container"></div>
+    <button class="check-btn" onclick="checkNeg()">Check Answers</button>
+    <div id="neg-feedback" class="feedback"></div>
+  </div>
+
+  <button class="reset-btn" onclick="location.reload()">🔄 Restart Lesson</button>
+</div>
+
+<script>
+  let score = 0;
+  let total = 0;
+
+  // ---------- ACTIVITY 1: Multiple Choice ----------
+  const mcQuestions = [
+    { q: "Look! The baby ___.", opts: ["sleeps","is sleeping","are sleeping"], a: 1 },
+    { q: "We ___ English right now.", opts: ["are studying","is studying","am studying"], a: 0 },
+    { q: "She ___ a red dress today.", opts: ["is wear","wearing","is wearing"], a: 2 },
+    { q: "The children ___ in the park.", opts: ["is running","are runing","are running"], a: 2 },
+    { q: "I ___ a letter to my friend.", opts: ["am writeing","am writing","is writing"], a: 1 }
+  ];
+
+  const mcContainer = document.getElementById('mc-container');
+  mcQuestions.forEach((item, idx) => {
+    total++;
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.innerHTML = `<p><b>${idx+1}.</b> ${item.q}</p><div class="options" id="mc-${idx}"></div><div class="feedback" id="mc-fb-${idx}"></div>`;
+    mcContainer.appendChild(div);
+    const optsDiv = div.querySelector('.options');
+    item.opts.forEach((opt, i) => {
+      const b = document.createElement('button');
+      b.textContent = opt;
+      b.onclick = () => {
+        const buttons = optsDiv.querySelectorAll('button');
+        buttons.forEach(btn => btn.disabled = true);
+        if (i === item.a) {
+          b.classList.add('correct');
+          document.getElementById(`mc-fb-${idx}`).textContent = "✅ Correct!";
+          document.getElementById(`mc-fb-${idx}`).className = "feedback ok";
+          score++;
+        } else {
+          b.classList.add('wrong');
+          buttons[item.a].classList.add('correct');
+          document.getElementById(`mc-fb-${idx}`).textContent = "❌ The correct answer is: " + item.opts[item.a];
+          document.getElementById(`mc-fb-${idx}`).className = "feedback no";
+        }
+        updateScore();
+      };
+      optsDiv.appendChild(b);
+    });
+  });
+
+  // ---------- ACTIVITY 2: Fill in the blanks ----------
+  const fillQuestions = [
+    { before: "My brother", after: "video games now.", answer: "is playing", hint: "(play)" },
+    { before: "The birds", after: "in the sky.", answer: "are flying", hint: "(fly)" },
+    { before: "I", after: "my homework at the moment.", answer: "am doing", hint: "(do)" },
+    { before: "Sarah and Tom", after: "to music.", answer: "are listening", hint: "(listen)" },
+    { before: "It", after: "outside.", answer: "is raining", hint: "(rain)" }
+  ];
+
+  const fillContainer = document.getElementById('fill-container');
+  fillQuestions.forEach((item, idx) => {
+    total++;
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.innerHTML = `${item.before} <input type="text" id="fill-${idx}" placeholder="${item.hint}"> ${item.after}`;
+    fillContainer.appendChild(div);
+  });
+
+  function checkFill() {
+    let correct = 0;
+    fillQuestions.forEach((item, idx) => {
+      const input = document.getElementById(`fill-${idx}`);
+      const user = input.value.trim().toLowerCase();
+      if (user === item.answer.toLowerCase()) {
+        input.style.borderColor = '#00b894';
+        input.style.background = '#d4f5e9';
+        correct++;
+      } else {
+        input.style.borderColor = '#d63031';
+        input.style.background = '#fde2e2';
+      }
+    });
+    const fb = document.getElementById('fill-feedback');
+    fb.textContent = `You got ${correct} / ${fillQuestions.length} correct.`;
+    fb.className = correct === fillQuestions.length ? "feedback ok" : "feedback no";
+    // update global score (only first attempt counted simply)
+    // We'll just show the result; global score tracks MC + WO + Neg
+  }
+
+  // ---------- ACTIVITY 3: Word Order ----------
+  const woQuestions = [
+    { words: ["playing","is","tennis","She"], answer: "She is playing tennis" },
+    { words: ["not","are","They","watching","TV"], answer: "They are not watching TV" },
+    { words: ["you","Are","a","drawing","picture","?"], answer: "Are you drawing a picture?" },
+    { words: ["cooking","dad","My","is","dinner"], answer: "My dad is cooking dinner" }
+  ];
+
+  const woContainer = document.getElementById('wo-container');
+  woQuestions.forEach((item, idx) => {
+    total++;
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.innerHTML = `
+      <p><b>${idx+1}.</b> Build the sentence:</p>
+      <div class="word-bank" id="wb-${idx}"></div>
+      <div>Your sentence: <span class="drop-zone" id="dz-${idx}"></span></div>
+      <div class="feedback" id="wo-fb-${idx}"></div>
+    `;
+    woContainer.appendChild(div);
+    const wb = div.querySelector('.word-bank');
+    const shuffled = [...item.words].sort(() => Math.random() - 0.5);
+    shuffled.forEach(w => {
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = w;
+      span.onclick = () => {
+        if (span.classList.contains('placed')) return;
+        span.classList.add('placed');
+        const dz = document.getElementById(`dz-${idx}`);
+        const newSpan = document.createElement('span');
+        newSpan.className = 'word';
+        newSpan.textContent = w;
+        newSpan.onclick = () => {
+          newSpan.remove();
+          span.classList.remove('placed');
+          checkWO(idx);
+        };
+        dz.appendChild(newSpan);
+        checkWO(idx);
+      };
+      wb.appendChild(span);
+    });
+  });
+
+  function checkWO(idx) {
+    const dz = document.getElementById(`dz-${idx}`);
+    const words = Array.from(dz.querySelectorAll('.word')).map(s => s.textContent);
+    const sentence = words.join(' ');
+    const fb = document.getElementById(`wo-fb-${idx}`);
+    if (sentence === "") {
+      fb.textContent = "";
+      return;
+    }
+    if (sentence === woQuestions[idx].answer) {
+      fb.textContent = "✅ Perfect!";
+      fb.className = "feedback ok";
+      // count score only once
+      if (!dz.dataset.done) {
+        dz.dataset.done = "1";
+        score++;
+        updateScore();
+      }
+    } else {
+      fb.textContent = "";
+      fb.className = "feedback";
+      dz.dataset.done = "";
+    }
+  }
+
+  // ---------- ACTIVITY 4: Negatives / Questions ----------
+  const negQuestions = [
+    { q: "He is watching TV. (make negative)", answer: ["he is not watching tv","he isn't watching tv"], hint: "He ___ TV." },
+    { q: "They are eating lunch. (make negative)", answer: ["they are not eating lunch","they aren't eating lunch"], hint: "They ___ lunch." },
+    { q: "She is reading. (make a question)", answer: ["is she reading?"], hint: "___ ?" },
+    { q: "You are sleeping. (make a question)", answer: ["are you sleeping?"], hint: "___ ?" }
+  ];
+
+  const negContainer = document.getElementById('neg-container');
+  negQuestions.forEach((item, idx) => {
+    total++;
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.innerHTML = `<p><b>${idx+1}.</b> ${item.q}</p>
+      <input type="text" id="neg-${idx}" placeholder="${item.hint}" style="width:90%;">
+      <div class="feedback" id="neg-fb-${idx}"></div>`;
+    negContainer.appendChild(div);
+  });
+
+  function checkNeg() {
+    let correct = 0;
+    negQuestions.forEach((item, idx) => {
+      const input = document.getElementById(`neg-${idx}`);
+      const user = input.value.trim().toLowerCase();
+      const fb = document.getElementById(`neg-fb-${idx}`);
+      if (item.answer.includes(user)) {
+        input.style.borderColor = '#00b894';
+        input.style.background = '#d4f5e9';
+        fb.textContent = "✅ Correct!";
+        fb.className = "feedback ok";
+        correct++;
+      } else {
+        input.style.borderColor = '#d63031';
+        input.style.background = '#fde2e2';
+        fb.textContent = "❌ Correct answer: " + item.answer[0];
+        fb.className = "feedback no";
+      }
+    });
+    const totalFb = document.getElementById('neg-feedback');
+    totalFb.textContent = `You got ${correct} / ${negQuestions.length} correct.`;
+    totalFb.className = correct === negQuestions.length ? "feedback ok" : "feedback no";
+  }
+
+  // ---------- Score ----------
+  function updateScore() {
+    document.getElementById('score').textContent = score;
+    document.getElementById('total').textContent = total;
+  }
+  updateScore();
+</script>
+</body>
+</html>
